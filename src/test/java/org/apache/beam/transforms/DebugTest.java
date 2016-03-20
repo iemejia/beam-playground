@@ -29,13 +29,13 @@ public class DebugTest {
         "Or to take arms against a sea of troubles, ");
 
     p.apply(Create.of(LINES)).setCoder(StringUtf8Coder.of())
-        .apply(Debug.print())
+        .apply(Log.print())
         .apply(FlatMapElements.via((String text) -> Arrays.asList(text.split(" ")))
             .withOutputType(new TypeDescriptor<String>() {
             }))
-        .apply(Debug.print())
+        .apply(Log.print())
         .apply(Filter.byPredicate((String text) -> text.length() > 5))
-        .apply(Debug.print())
+        .apply(Log.print())
         .apply(MapElements.via((String text) -> text.toUpperCase())
             .withOutputType(new TypeDescriptor<String>() {
             }))
@@ -50,7 +50,6 @@ public class DebugTest {
               System.out.println(s);
               return null;
             }));
-
     p.run();
   }
 }

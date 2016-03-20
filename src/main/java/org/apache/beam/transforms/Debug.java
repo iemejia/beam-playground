@@ -21,10 +21,6 @@ public final class Debug {
     return ab;
   }
 
-  public static <T> PTransform<PCollection<T>, PCollection<T>> print() {
-    return new TransformBuilder<T>().print();
-  }
-
   public static <T> PTransform<PCollection<T>, PCollection<T>>
       with(final SerializableFunction<T, Void> fun) {
     return new TransformBuilder<T>().with(fun);
@@ -56,13 +52,6 @@ public final class Debug {
 
   public static class TransformBuilder<T> {
     private SerializableFunction<T, Boolean> predicate = (T t) -> Boolean.TRUE;
-
-    public PTransform<PCollection<T>, PCollection<T>> print() {
-      return with((T t) -> {
-        System.out.println(t);
-        return null;
-      });
-    }
 
     public PTransform<PCollection<T>, PCollection<T>>
         with(final SerializableFunction<T, Void> fun) {
