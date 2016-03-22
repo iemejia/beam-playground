@@ -1,4 +1,4 @@
-package org.apache.beam.transforms;
+package org.apache.beam.contrib.transforms;
 
 import com.google.cloud.dataflow.sdk.Pipeline;
 import com.google.cloud.dataflow.sdk.coders.StringUtf8Coder;
