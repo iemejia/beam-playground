@@ -1,11 +1,11 @@
 package org.apache.beam.contrib.io;
 
-import com.google.cloud.dataflow.sdk.transforms.PTransform;
-import com.google.cloud.dataflow.sdk.values.PCollection;
-import com.google.cloud.dataflow.sdk.values.PDone;
+import org.apache.beam.sdk.transforms.PTransform;
+import org.apache.beam.sdk.values.PCollection;
+import org.apache.beam.sdk.values.PDone;
 
 /**
- * Transform for printing the contents of a {@link com.google.cloud.dataflow.sdk.values.PCollection}.
+ * Transform for printing the contents of a {@link org.apache.beam.sdk.values.PCollection}.
  * to standard output.
  *
  * This is derived from the one in the Flink Runner
@@ -56,7 +56,10 @@ public class ConsoleIO {
 
       @Override
       public PDone apply(PCollection<?> input) {
+//        return new PDone();
+//        input.getPipeline().getOptions().
         return PDone.in(input.getPipeline());
+
       }
     }
   }
