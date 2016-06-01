@@ -7,8 +7,10 @@ import org.apache.beam.sdk.transforms.ParDo;
 import org.apache.beam.sdk.transforms.SerializableFunction;
 import org.apache.beam.sdk.values.PCollection;
 
+import java.io.Serializable;
+
 @Experimental
-public final class Debug {
+public final class Debug implements Serializable {
 
   private Debug() {
 
@@ -27,7 +29,7 @@ public final class Debug {
   }
 
   private static class NoTransformWithEffect<T>
-      extends PTransform<PCollection<T>, PCollection<T>> {
+      extends PTransform<PCollection<T>, PCollection<T>> implements Serializable {
 
     private SerializableFunction<T, Void> fun;
     private SerializableFunction<T, Boolean> predicate = (T t) -> Boolean.TRUE;
@@ -50,7 +52,7 @@ public final class Debug {
     }
   }
 
-  public static class TransformBuilder<T> {
+  public static class TransformBuilder<T> implements Serializable {
     private SerializableFunction<T, Boolean> predicate = (T t) -> Boolean.TRUE;
 
     public PTransform<PCollection<T>, PCollection<T>>

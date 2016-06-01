@@ -1,13 +1,16 @@
 package org.apache.beam.playground.examples;
 
+import org.apache.beam.runners.spark.SparkPipelineRunner;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.StringUtf8Coder;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.io.Write;
 import org.apache.beam.sdk.io.XmlSink;
 import org.apache.beam.sdk.options.DirectPipelineOptions;
+import org.apache.beam.sdk.options.PipelineOptions;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.runners.DirectPipelineRunner;
+import org.apache.beam.sdk.testing.TestPipeline;
 import org.apache.beam.sdk.transforms.Create;
 import org.apache.beam.sdk.transforms.FlatMapElements;
 import org.apache.beam.sdk.transforms.MapElements;
@@ -23,10 +26,8 @@ import java.util.List;
  */
 public class CountWords {
   public static void main(String[] args) {
-    DirectPipelineOptions options = PipelineOptionsFactory.create()
-        .as(DirectPipelineOptions.class);
-    options.setRunner(DirectPipelineRunner.class);
-    options.setProject("SET_YOUR_PROJECT_ID_HERE");
+    PipelineOptions options = PipelineOptionsFactory.fromArgs(args).withValidation().create();
+//    options.setRunner(SparkPipelineRunner.class);
     Pipeline p = Pipeline.create(options);
 
     // Create a Java Collection, in this case a List of Strings.
