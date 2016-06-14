@@ -34,8 +34,8 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.beam</groupId>
-      <artifactId>java-sdk-all</artifactId>
-      <version>0.1.0-incubating-SNAPSHOT</version>
+      <artifactId>beam-sdks-java-core</artifactId>
+      <version>${beam.version}</version>
     </dependency>
 
     <dependency>
