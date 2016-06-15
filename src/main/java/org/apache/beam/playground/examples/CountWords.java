@@ -1,22 +1,20 @@
 package org.apache.beam.playground.examples;
 
-import org.apache.beam.runners.spark.SparkPipelineRunner;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.StringUtf8Coder;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.io.Write;
 import org.apache.beam.sdk.io.XmlSink;
-import org.apache.beam.sdk.options.DirectPipelineOptions;
 import org.apache.beam.sdk.options.PipelineOptions;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
-import org.apache.beam.sdk.runners.DirectPipelineRunner;
-import org.apache.beam.sdk.testing.TestPipeline;
 import org.apache.beam.sdk.transforms.Create;
 import org.apache.beam.sdk.transforms.FlatMapElements;
 import org.apache.beam.sdk.transforms.MapElements;
 import org.apache.beam.sdk.values.TypeDescriptor;
 
 import org.apache.beam.contrib.io.ConsoleIO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,9 +23,12 @@ import java.util.List;
  * Created by ismael on 3/17/16.
  */
 public class CountWords {
+    private static final Logger LOG = LoggerFactory.getLogger(CountWords.class);
+
   public static void main(String[] args) {
     PipelineOptions options = PipelineOptionsFactory.fromArgs(args).withValidation().create();
-//    options.setRunner(SparkPipelineRunner.class);
+    LOG.info(options.toString());
+
     Pipeline p = Pipeline.create(options);
 
     // Create a Java Collection, in this case a List of Strings.
@@ -51,7 +52,7 @@ public class CountWords {
 //                        return input.toUpperCase();
 //                    }
 //                }))
-        .apply(TextIO.Write.to("/tmp/petitprince-out.txt"));
+        .apply(TextIO.Write.to("/tmp/out.txt"));
 
 //        .apply(ConsoleIO.Write.create());
 //        .apply(Write.to(XmlSink.write()));
