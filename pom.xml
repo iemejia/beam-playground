@@ -64,6 +64,9 @@
   <profiles>
     <profile>
       <id>direct-runner</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <dependencies>
         <dependency>
           <groupId>org.apache.beam</groupId>
