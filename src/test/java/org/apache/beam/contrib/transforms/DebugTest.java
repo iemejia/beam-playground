@@ -32,7 +32,7 @@ public class DebugTest {
             .withOutputType(new TypeDescriptor<String>() {
             }))
 //        .apply(Log.print())
-        .apply(Filter.byPredicate((String text) -> text.length() > 5))
+        .apply(Filter.by((String text) -> text.length() > 5))
 //        .apply(Log.print())
         .apply(MapElements.via((String text) -> text.toUpperCase())
             .withOutputType(new TypeDescriptor<String>() {

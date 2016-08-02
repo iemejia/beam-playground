@@ -36,8 +36,7 @@ public final class Debug implements Serializable {
 
     @Override
     public PCollection<T> apply(final PCollection<T> col) {
-      col.apply(ParDo.named("Debug.Do")
-          .of(new DoFn<T, T>() {
+      col.apply("Debug.Do", ParDo.of(new DoFn<T, T>() {
             @Override
             public void processElement(final ProcessContext c) {
               final T elem = c.element();
