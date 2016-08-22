@@ -19,7 +19,6 @@ public class Trace {
         public static <T> TransformBuilder<T>
         when(final SerializableFunction<T, Boolean> predicate) {
             final TransformBuilder<T> ab = new TransformBuilder<T>();
-            ab.predicate = predicate;
             return ab;
         }
 
@@ -32,12 +31,19 @@ public class Trace {
                 extends PTransform<PCollection<T>, PCollection<T>> implements Serializable {
 
             private SerializableFunction<T, Void> fun;
-            private SerializableFunction<T, Boolean> predicate = (T t) -> Boolean.TRUE;
+            private SerializableFunction<T, Boolean> predicate =
+                    new SerializableFunction<T, Boolean>() {
+                        @Override
+                        public Boolean apply(T input) {
+                            return Boolean.TRUE;
+                        }
+                    };
+
 
             @Override
             public PCollection<T> apply(final PCollection<T> col) {
                 col.apply("Debug.Do", ParDo.of(new DoFn<T, T>() {
-                    @Override
+                    @ProcessElement
                     public void processElement(final ProcessContext c) {
                         final T elem = c.element();
                         // TODO make this more robust
@@ -52,13 +58,10 @@ public class Trace {
         }
 
         public static class TransformBuilder<T> implements Serializable {
-            private SerializableFunction<T, Boolean> predicate = (T t) -> Boolean.TRUE;
-
             public PTransform<PCollection<T>, PCollection<T>>
             with(final SerializableFunction<T, Void> fun) {
                 final NoTransformWithEffect<T> t = new NoTransformWithEffect<T>();
                 t.fun = fun;
-                t.predicate = predicate;
                 return t;
             }
         }
@@ -68,16 +71,22 @@ public class Trace {
     public static class Log {
 
         public static <T> PTransform<PCollection<T>, PCollection<T>> print() {
-            return Debug.with((T t) -> {
-                System.out.println(t.toString());
-                return null;
+            return Debug.with(new SerializableFunction<T, Void>() {
+                @Override
+                public Void apply(T input) {
+                    System.out.println(input.toString());
+                    return null;
+                }
             });
         }
 
         public static <T> PTransform<PCollection<T>, PCollection<T>> error() {
-            return Debug.with((T t) -> {
-                System.err.println(t.toString());
-                return null;
+            return Debug.with(new SerializableFunction<T, Void>() {
+                @Override
+                public Void apply(T input) {
+                    System.err.println(input.toString());
+                    return null;
+                }
             });
         }
     }
