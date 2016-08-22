@@ -1,5 +1,7 @@
 package org.apache.beam.contrib.transforms;
 
+import org.apache.beam.contrib.io.Console2IO;
+import org.apache.beam.contrib.io.ConsoleIO;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.StringUtf8Coder;
 import org.apache.beam.sdk.options.PipelineOptions;
@@ -27,16 +29,19 @@ public class DebugTest {
         "Or to take arms against a sea of troubles, ");
 
     p.apply(Create.of(LINES)).setCoder(StringUtf8Coder.of())
-//        .apply(Log.print())
+//        .apply(Debug.with(((String s) -> { System.out.println(s); return null;} )))
+        .apply(Trace.Log.print())
         .apply(FlatMapElements.via((String text) -> Arrays.asList(text.split(" ")))
             .withOutputType(new TypeDescriptor<String>() {
             }))
-//        .apply(Log.print())
+        .apply(Trace.Log.error())
         .apply(Filter.by((String text) -> text.length() > 5))
 //        .apply(Log.print())
         .apply(MapElements.via((String text) -> text.toUpperCase())
             .withOutputType(new TypeDescriptor<String>() {
-            }));
+            })
+//        .apply(Console2IO.Write.from())
+        );
 //        .apply(Debug
 //            .with((String s) -> {
 //              System.out.println(s);
