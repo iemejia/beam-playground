@@ -1,6 +1,5 @@
 package org.apache.beam.contrib.transforms;
 
-import org.apache.beam.contrib.io.Console2IO;
 import org.apache.beam.contrib.io.ConsoleIO;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.StringUtf8Coder;

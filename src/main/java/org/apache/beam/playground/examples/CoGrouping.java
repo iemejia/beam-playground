@@ -2,11 +2,13 @@ package org.apache.beam.playground.examples;
 
 import com.google.common.collect.Multimap;
 
-import org.apache.beam.contrib.transforms.Log;
+import org.apache.beam.contrib.transforms.Trace;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.StringUtf8Coder;
 import org.apache.beam.sdk.coders.TextualIntegerCoder;
 import org.apache.beam.sdk.io.TextIO;
+import org.apache.beam.sdk.options.PipelineOptions;
+import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.testing.TestPipeline;
 import org.apache.beam.sdk.transforms.Create;
 import org.apache.beam.sdk.transforms.DoFn;
@@ -28,10 +30,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CoGrouping {
+    private static final Logger LOG = LoggerFactory.getLogger(CoGrouping.class);
+
     public static void main(String[] args) {
-        Pipeline p = TestPipeline.create();
+
+      PipelineOptions options = PipelineOptionsFactory.fromArgs(args).withValidation().create();
+      LOG.info(options.toString());
+
+      Pipeline p = Pipeline.create(options);
+
 
 //        PCollection<String> input = p.apply(Create.of("1", "2"));
 
@@ -60,7 +71,7 @@ public class CoGrouping {
             .apply("GroupBy", GroupByKey.create())
             .apply("ExtractValues", Values.create())
             .apply("toString", ParDo.of(new DoFn<Iterable<Integer>, String>() {
-                    @Override
+                    @ProcessElement
                     public void processElement(ProcessContext c) throws Exception {
                         c.output(c.element().toString());
                     }

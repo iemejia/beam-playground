@@ -41,7 +41,7 @@ public class Trace {
 
 
             @Override
-            public PCollection<T> apply(final PCollection<T> col) {
+            public PCollection<T> expand(final PCollection<T> col) {
                 col.apply("Debug.Do", ParDo.of(new DoFn<T, T>() {
                     @ProcessElement
                     public void processElement(final ProcessContext c) {

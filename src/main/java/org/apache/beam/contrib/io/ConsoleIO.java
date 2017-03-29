@@ -55,7 +55,7 @@ public class ConsoleIO {
       }
 
       @Override
-      public PDone apply(PCollection<?> input) {
+      public PDone expand(PCollection<?> input) {
 //        return new PDone();
 //        input.getPipeline().getOptions().
         return PDone.in(input.getPipeline());
