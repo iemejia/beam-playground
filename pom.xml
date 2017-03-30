@@ -24,16 +24,32 @@
 
   <properties>
     <beam.version>0.6.0</beam.version>
+    <guava.version>20.0</guava.version>
     <jackson.version>2.7.2</jackson.version>
     <slf4j.version>1.7.14</slf4j.version>
     <spark.version>1.6.3</spark.version>
   </properties>
 
   <dependencies>
+    <!-- SDK -->
     <dependency>
       <groupId>org.apache.beam</groupId>
       <artifactId>beam-sdks-java-core</artifactId>
       <version>${beam.version}</version>
+    </dependency>
+
+    <!-- IOs -->
+    <dependency>
+      <groupId>org.apache.beam</groupId>
+      <artifactId>beam-sdks-java-io-hbase</artifactId>
+      <version>${beam.version}</version>
+    </dependency>
+
+    <!-- Other -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -41,6 +57,7 @@
       <version>${slf4j.version}</version>
     </dependency>
 
+    <!-- Test dependencies -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
